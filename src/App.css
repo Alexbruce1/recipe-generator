@@ -1,0 +1,16 @@
+body {
+  font-family: Arial, sans-serif;
+  padding: 0;
+  background: #f4f4f4;
+}
+
+.App {
+  margin: 20px auto;
+  max-width: 1000px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+h1 {
+  color: #333;
+}
