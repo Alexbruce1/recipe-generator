@@ -113,12 +113,14 @@ body {
   color: #fff;
 }
 
+.search-ingredients-tags-title {
+  margin: 0;
+} 
+
 .search-ingredients-tags {
-  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
   width: 100%;
   display: flex;
-  padding: 5px;
   margin-bottom: 10px;
   overflow: scroll;
   flex-wrap: nowrap;
@@ -129,11 +131,11 @@ body {
   color: #4CAF50;
   padding: 5px;
   border-radius: 5px;
-  margin: 5px;
+  margin: 5px 10px;
+  margin-left: 0;
   text-align: center;
   font-weight: 700;
   cursor: pointer;
-  /* width: 100px; */
   flex: 0 0 108px;
   display: flex;
   flex-direction: column;
@@ -142,7 +144,6 @@ body {
 
 .search-tag-active {
   background: #4CAF50;
-  border: 2px solid #4CAF50;
   color: #fff;
 }
 
@@ -161,8 +162,11 @@ body {
   margin: 20px 0;
   padding: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
 }
 
-.recipe-image {
-  width: 100%;
+.recipe-top-section {
+  background-color: #45A049;
+  display: flex;
+  justify-content: space-between;
 }

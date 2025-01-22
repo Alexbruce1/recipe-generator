@@ -53,7 +53,7 @@ const App = () => {
 
     try {
       const response = await fetch(
-        `https://api.spoonacular.com/recipes/random?ingredients=${formattedIngredients}&apiKey=${apiKey}&number=5&ranking=1`
+        `https://api.spoonacular.com/recipes/random?ingredients=${formattedIngredients}&apiKey=${apiKey}&number=5&ranking=1&include-tags=${includedTags.join(",")}`
       );
       const data = await response.json();
   
@@ -134,10 +134,11 @@ const App = () => {
               </div>
             )}
           </form>
+          <h3 className="search-ingredients-tags-title">Dietary Restrictions</h3>
           <div className="search-ingredients-tags">
             <div 
-              className={includedTags.includes("gluten free") ? "search-ingredient-tag search-tag-active" : "search-ingredient-tag"}
-              data-name="gluten free"
+              className={includedTags.includes("gluten-free") ? "search-ingredient-tag search-tag-active" : "search-ingredient-tag"}
+              data-name="gluten-free"
               onClick={assignTag}>
               <img 
                 className="search-ingredient-tag-icon" 
@@ -163,8 +164,8 @@ const App = () => {
                 Vegan
             </div>
             <div 
-              className={includedTags.includes("dairy free") ? "search-ingredient-tag search-tag-active" : "search-ingredient-tag"}
-              data-name="dairy free"
+              className={includedTags.includes("dairy-free") ? "search-ingredient-tag search-tag-active" : "search-ingredient-tag"}
+              data-name="dairy-free"
               onClick={assignTag}>
               <img 
                 className="search-ingredient-tag-icon" 
