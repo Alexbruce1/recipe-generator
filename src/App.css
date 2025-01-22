@@ -29,7 +29,7 @@ body {
 }
 
 .header-page-title {
-  /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
+  font-family: "ff-tisa-sans-web-pro", sans-serif;
 }
 
 .app-content {
@@ -66,7 +66,7 @@ body {
   outline: none;
 }
 
-.get-recipe-button {
+.form-button {
   padding: 10px 20px;
   height: 30px;
   background: #4CAF50;
@@ -77,14 +77,12 @@ body {
   border-radius: 5px;
   display: flex;
   align-items: center;
-};
+}
 
 .ingredient-list {
   display: flex;
   justify-content: flex-start;
   width: 100%;
-  background-color: #4CAF50;
-  height: 12px;
   margin: 0;
 }
 

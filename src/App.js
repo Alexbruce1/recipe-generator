@@ -27,32 +27,41 @@ const App = () => {
   }
 
   // const fetchRecipe = async () => {
-  //   const formattedIngredients = ingredient.replace(" ", "+");
-
-  //   try {
-  //     const response = await fetch(
-  //       `https://api.spoonacular.com/recipes/random?ingredients=${formattedIngredients}&apiKey=${apiKey}&number=5`
-  //     );
-  //     const data = await response.json();
+  //   const formattedIngredients = ingredientList.join(",+").replace(" ", "");
+  //   console.log("fetchRecipe", formattedIngredients);
+  // }
   
-  //     if (data.recipes && data.recipes.length > 0) {
-  //       setRecipes(data.recipes);
-  //     } else {
-  //       setRecipes({
-  //         title: "No recipes found",
-  //         image: "https://via.placeholder.com/150",
-  //         description: "Try a different ingredient or combination.",
-  //       });
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching recipe:", error);
-  //     setRecipes({
-  //       title: "Error fetching recipe",
-  //       image: "https://via.placeholder.com/150",
-  //       description: "Please try again later.",
-  //     });
-  //   }
-  // };
+  const fetchRecipe = async () => {
+    const formattedIngredients = ingredientList.join(",+").replace(" ", "");
+    
+    console.log("fetchRecipe", formattedIngredients);
+
+    try {
+      const response = await fetch(
+        `https://api.spoonacular.com/recipes/random?ingredients=${formattedIngredients}&apiKey=${apiKey}&number=5`
+      );
+      const data = await response.json();
+  
+      if (data.recipes && data.recipes.length > 0) {
+        setRecipes(data.recipes);
+        console.log(data.recipes)
+      } else {
+        setRecipes({
+          title: "No recipes found",
+          image: "https://via.placeholder.com/150",
+          description: "Try a different ingredient or combination.",
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching recipe:", error);
+      setRecipes({
+        title: "Error fetching recipe",
+        image: "https://via.placeholder.com/150",
+        description: "Please try again later.",
+      });
+    }
+
+  };
 
   return (
     <div className="App">
@@ -78,11 +87,11 @@ const App = () => {
                 value={ingredient}
                 className="search-ingredients-input"
                 onChange={handleInputChange}
-                placeholder="Enter an ingredient that you want to cook with"/>
+                placeholder="Enter an ingredient that you want to use"/>
               <button
-                className="get-recipe-button"
+                className="form-button"
                 type="submit">
-                Add ingredient
+                Add
               </button>
             </div>
             {ingredientList && ingredientList.length > 0 && (
@@ -111,10 +120,10 @@ const App = () => {
             )}
           </form>
           <input
-            // onClick={fetchRecipe}
+            onClick={fetchRecipe}
             type="button"
             value="Get Recipes"
-            className="get-recipe-button"
+            className="form-button"
           />
         </div>
         {recipes && recipes.length > 0 && recipes.map((recipe) => {
