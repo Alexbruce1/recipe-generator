@@ -1,74 +1,114 @@
 import React, { useState } from "react";
 import logo from "./assets/logo.svg";
+import clear from "./assets/clear.svg";
 import "./App.css";
 
 const apiKey = process.env.REACT_APP_API_KEY;
 
 const App = () => {
-  const [ingredients, setIngredients] = useState("");
+  const [ingredient, setIngredient] = useState("");
+  const [ingredientList, setIngredients] = useState([]);
   const [recipes, setRecipes] = useState([]);
 
   const handleInputChange = (e) => {
-    setIngredients(e.target.value);
+    setIngredient([e.target.value]);
   };
 
-  const fetchRecipe = async () => {
-    const formattedIngredients = ingredients.replace(" ", "+");
+  const handleAddIngredient = () => {
+    if (!ingredient) return;
+    setIngredients([...ingredientList, ingredient]);
+    setIngredient("");
+  };
 
-    try {
-      const response = await fetch(
-        `https://api.spoonacular.com/recipes/random?ingredients=${formattedIngredients}&apiKey=${apiKey}&number=5`
-      );
-      const data = await response.json();
+  const removeIngredient = (index) => {
+    const newIngredients = [...ingredientList];
+    newIngredients.splice(index, 1);
+    setIngredients(newIngredients);
+  }
 
-      console.log("data:", data.recipes);
+
+  // const fetchRecipe = async () => {
+  //   const formattedIngredients = ingredient.replace(" ", "+");
+
+  //   try {
+  //     const response = await fetch(
+  //       `https://api.spoonacular.com/recipes/random?ingredients=${formattedIngredients}&apiKey=${apiKey}&number=5`
+  //     );
+  //     const data = await response.json();
   
-      if (data.recipes && data.recipes.length > 0) {
-        setRecipes(data.recipes);
-      } else {
-        setRecipes({
-          title: "No recipes found",
-          image: "https://via.placeholder.com/150",
-          description: "Try a different ingredient or combination.",
-        });
-      }
-    } catch (error) {
-      console.error("Error fetching recipe:", error);
-      setRecipes({
-        title: "Error fetching recipe",
-        image: "https://via.placeholder.com/150",
-        description: "Please try again later.",
-      });
-    }
-  };
+  //     if (data.recipes && data.recipes.length > 0) {
+  //       setRecipes(data.recipes);
+  //     } else {
+  //       setRecipes({
+  //         title: "No recipes found",
+  //         image: "https://via.placeholder.com/150",
+  //         description: "Try a different ingredient or combination.",
+  //       });
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching recipe:", error);
+  //     setRecipes({
+  //       title: "Error fetching recipe",
+  //       image: "https://via.placeholder.com/150",
+  //       description: "Please try again later.",
+  //     });
+  //   }
+  // };
 
   return (
     <div className="App">
       <header className="app-header">
-        <img
-          className="app-header-logo"
-          src={logo} />
+        <div className="app-header-container">
+          <img
+            className="app-header-logo"
+            src={logo} />
+          <h1 className="header-page-title">Random Recipe Generator</h1>
+        </div>
       </header>
       <div className="app-content">
-        <h1>Random Recipe Generator</h1>
-        <form 
-          className="search-form"
-          onSubmit={(e) => {
-            e.preventDefault();
-            fetchRecipe();
-          }}>
+        <div className="search-box">
+          <form 
+            className="search-ingredients-container" 
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleAddIngredient();
+              }}>
+            <div className="search-ingredients-top-line">
+              <input
+                type="text"
+                value={ingredient}
+                className="search-ingredients-input"
+                onChange={handleInputChange}
+                placeholder="Enter an ingredient that you want to cook with"/>
+              <button
+                className="get-recipe-button"
+                type="submit">
+                Add ingredient
+              </button>
+            </div>
+            {ingredientList && ingredientList.length > 0 && (
+              <div className="ingredient-list">
+                {ingredientList.map((ingredient, index) => {
+                  return (
+                    <li key={index} className="ingredient-list-item">
+                      {ingredient}
+                      <img 
+                        className="remove-item-x" 
+                        src={clear} 
+                        onClick={() => {
+                          removeIngredient(index);
+                        }}/>
+                    </li>
+                  )
+                })}
+              </div>
+            )}
+          </form>
           <input
-            type="text"
-            value={ingredients}
-            className="search-ingredients-input"
-            onChange={handleInputChange}
-            placeholder="Enter ingredients separated by commas"/>
-          <button
-            type="submit"
-            className="get-recipe-button">
-            Get Recipe
-          </button>
-        </form>
+            // onClick={fetchRecipe}
+            className="get-recipe-button"
+          />
+        </div>
         {recipes && recipes.length > 0 && recipes.map((recipe) => {
           return (
             <div key={recipe.id} className="recipe">

@@ -13,32 +13,100 @@ body {
   background-color: #4CAF50;
 }
 
+.app-header-container {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1000px;
+  width: 90%;
+  margin: 0 auto;
+  align-items: center;
+}
+
 .app-header-logo {
   display: block;
-  margin: 0 auto;
+  margin: 0;
   height: 45px;
+}
+
+.header-page-title {
+  /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
 }
 
 .app-content {
   margin: 20px auto;
   max-width: 1000px;
+  width: 90%;
   padding: 20px;
 }
 
-.search-ingredients-input {
-  padding: 10px;
+.search-box {
+  background: #fff;
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.search-ingredients-container {
+  border-radius: 10px;
   margin-bottom: 10px;
+  padding: 8px;
+  border: 2px solid #4CAF50;
+}
+
+.search-ingredients-top-line{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.search-ingredients-input {
   width: 80%;
+  height: 30px;
+  border: none;
+  background-color: transparent;
+  outline: none;
 }
 
 .get-recipe-button {
   padding: 10px 20px;
-  background: #28a745;
+  height: 30px;
+  background: #4CAF50;
   color: #fff;
+  font-weight: 900;
   border: none;
   cursor: pointer;
   border-radius: 5px;
+  display: flex;
+  align-items: center
 };
+
+.ingredient-list {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  background-color: #4CAF50;
+  height: 12px;
+  margin: 0;
+}
+
+.ingredient-list-item {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  background-color: #4CAF50;
+  border-radius: 4px;
+  margin: 4px;
+}
+
+.ingredient-list-item:hover {
+  background-color: #45A049;
+}
+
+.remove-item-x {
+  cursor: pointer;
+  height: 14px;
+  filter: invert(.1);
+  margin-left: 8px;
+}
 
 .recipe {
   background: #fff;
