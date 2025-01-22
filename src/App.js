@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import logo from "./assets/logo.svg";
 import clear from "./assets/clear.svg";
+import carrot from "./assets/carrot.svg";
+import cheese from "./assets/cheese.svg";
+import salad from "./assets/salad.svg";
+import wheat from "./assets/wheat.svg";
 import "./App.css";
 
 const apiKey = process.env.REACT_APP_API_KEY;
@@ -8,6 +12,7 @@ const apiKey = process.env.REACT_APP_API_KEY;
 const App = () => {
   const [ingredient, setIngredient] = useState("");
   const [ingredientList, setIngredientList] = useState([]);
+  const [includedTags, setIncludedTags] = useState([]);
   const [recipes, setRecipes] = useState([]);
 
   const handleInputChange = (e) => {
@@ -19,6 +24,16 @@ const App = () => {
     setIngredientList([...ingredientList, ingredient]);
     setIngredient("");
   };
+
+  const assignTag = event => {
+    const tag = event.currentTarget.getAttribute("data-name");
+    if (includedTags.includes(tag)) {
+      const newTags = includedTags.filter((includedTag) => includedTag !== tag);
+      setIncludedTags(newTags);
+    } else {
+      setIncludedTags([...includedTags, tag]);
+    }
+  }
 
   const removeIngredient = (index) => {
     const newIngredients = [...ingredientList];
@@ -38,7 +53,7 @@ const App = () => {
 
     try {
       const response = await fetch(
-        `https://api.spoonacular.com/recipes/random?ingredients=${formattedIngredients}&apiKey=${apiKey}&number=5`
+        `https://api.spoonacular.com/recipes/random?ingredients=${formattedIngredients}&apiKey=${apiKey}&number=5&ranking=1`
       );
       const data = await response.json();
   
@@ -119,6 +134,44 @@ const App = () => {
               </div>
             )}
           </form>
+          <div className="search-ingredients-tags">
+            <div 
+              className={includedTags.includes("gluten free") ? "search-ingredient-tag search-tag-active" : "search-ingredient-tag"}
+              data-name="gluten free"
+              onClick={assignTag}>
+              <img 
+                className="search-ingredient-tag-icon" 
+                src={wheat} />
+                Gluten Free
+            </div>
+            <div 
+              className={includedTags.includes("vegetarian") ? "search-ingredient-tag search-tag-active" : "search-ingredient-tag"}
+              data-name="vegetarian"
+              onClick={assignTag}>
+              <img 
+                className="search-ingredient-tag-icon" 
+                src={salad} />
+                Vegetarian
+            </div>
+            <div 
+              className={includedTags.includes("vegan") ? "search-ingredient-tag search-tag-active" : "search-ingredient-tag"}
+              data-name="vegan"
+              onClick={assignTag}>
+              <img 
+                className="search-ingredient-tag-icon" 
+                src={carrot} />
+                Vegan
+            </div>
+            <div 
+              className={includedTags.includes("dairy free") ? "search-ingredient-tag search-tag-active" : "search-ingredient-tag"}
+              data-name="dairy free"
+              onClick={assignTag}>
+              <img 
+                className="search-ingredient-tag-icon" 
+                src={cheese} />
+                Dairy Free
+            </div>
+          </div>
           <input
             onClick={fetchRecipe}
             type="button"

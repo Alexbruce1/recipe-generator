@@ -1,4 +1,5 @@
 body {
+  font-family: "ff-tisa-sans-web-pro", sans-serif;
   font-family: Arial, sans-serif;
   padding: 0;
   background: #FAF3E0;
@@ -29,8 +30,9 @@ body {
 }
 
 .header-page-title {
-  font-family: "ff-tisa-sans-web-pro", sans-serif;
-}
+  font-weight: 700;
+  font-style: italic;
+  }
 
 .app-content {
   margin: 20px auto;
@@ -68,7 +70,7 @@ body {
 
 .form-button {
   padding: 10px 20px;
-  height: 30px;
+  /* height: 30px; */
   background: #4CAF50;
   color: #fff;
   font-weight: 900;
@@ -109,6 +111,49 @@ body {
 .clear-all-button {
   cursor: pointer;
   color: #fff;
+}
+
+.search-ingredients-tags {
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  width: 100%;
+  display: flex;
+  padding: 5px;
+  margin-bottom: 10px;
+  overflow: scroll;
+  flex-wrap: nowrap;
+}
+
+.search-ingredient-tag {
+  border: 2px solid #4CAF50;
+  color: #4CAF50;
+  padding: 5px;
+  border-radius: 5px;
+  margin: 5px;
+  text-align: center;
+  font-weight: 700;
+  cursor: pointer;
+  /* width: 100px; */
+  flex: 0 0 108px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.search-tag-active {
+  background: #4CAF50;
+  border: 2px solid #4CAF50;
+  color: #fff;
+}
+
+.search-ingredient-tag-icon {
+  height: 30px;
+  /* filter: invert(.1); */
+  /* margin-left: 8px; */
+}
+
+.search-ingredient-tag-text {
+  margin: 0;
 }
 
 .recipe {
