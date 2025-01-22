@@ -7,7 +7,7 @@ const apiKey = process.env.REACT_APP_API_KEY;
 
 const App = () => {
   const [ingredient, setIngredient] = useState("");
-  const [ingredientList, setIngredients] = useState([]);
+  const [ingredientList, setIngredientList] = useState([]);
   const [recipes, setRecipes] = useState([]);
 
   const handleInputChange = (e) => {
@@ -16,16 +16,15 @@ const App = () => {
 
   const handleAddIngredient = () => {
     if (!ingredient) return;
-    setIngredients([...ingredientList, ingredient]);
+    setIngredientList([...ingredientList, ingredient]);
     setIngredient("");
   };
 
   const removeIngredient = (index) => {
     const newIngredients = [...ingredientList];
     newIngredients.splice(index, 1);
-    setIngredients(newIngredients);
+    setIngredientList(newIngredients);
   }
-
 
   // const fetchRecipe = async () => {
   //   const formattedIngredients = ingredient.replace(" ", "+");
@@ -101,11 +100,20 @@ const App = () => {
                     </li>
                   )
                 })}
+                {ingredientList.length > 1 && (
+                  <div 
+                    className="ingredient-list-item clear-all-button"
+                    onClick={() => setIngredientList([])}>
+                    Clear all
+                  </div>
+                )}
               </div>
             )}
           </form>
           <input
             // onClick={fetchRecipe}
+            type="button"
+            value="Get Recipes"
             className="get-recipe-button"
           />
         </div>
