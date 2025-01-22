@@ -5,7 +5,28 @@ import carrot from "./assets/carrot.svg";
 import cheese from "./assets/cheese.svg";
 import salad from "./assets/salad.svg";
 import wheat from "./assets/wheat.svg";
+import egg from "./assets/small-icons/egg.svg";
+import nut from "./assets/small-icons/nut.svg";
+import vegetarian from "./assets/small-icons/vegetarian.svg";
+import vegan from "./assets/small-icons/vegan.svg";
+import gf from "./assets/small-icons/gf.svg";
+import dairy from "./assets/small-icons/dairy.svg";
+import fodmap from "./assets/small-icons/fodmap.svg";
+import primal from "./assets/small-icons/primal.svg";
+import paleo from "./assets/small-icons/paleo.svg";
+import whole30 from "./assets/small-icons/whole30.png";
 import "./App.css";
+
+const diets = {
+  "lacto ovo vegetarian": vegetarian,
+  "vegan": vegan,
+  "gluten free": gf,
+  "dairy free": dairy,
+  "paleolithic": paleo,
+  "primal": primal,
+  "fodmap friendly": fodmap,
+  "whole 30": whole30,
+}
 
 const apiKey = process.env.REACT_APP_API_KEY;
 
@@ -183,6 +204,24 @@ const App = () => {
         {recipes && recipes.length > 0 && recipes.map((recipe) => {
           return (
             <div key={recipe.id} className="recipe">
+              <div className="recipe-top-section">
+                {recipe.diets && recipe.diets.length > 0 && (
+                  <div className="recipe-tags">
+                    {recipe.diets.map((tag, index) => {
+                      return (
+                        <div 
+                          key={index} 
+                          className="recipe-tag">
+                            {!diets[tag] && ( {tag} )}
+                          <img 
+                            className="recipe-tag-icon" 
+                            src={diets[tag]} />
+                        </div>
+                      )
+                    })}
+                  </div>
+                )}
+              </div>
               <h2>{recipe.title}</h2>
               <img 
                 src={recipe.image} 
