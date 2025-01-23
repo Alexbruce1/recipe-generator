@@ -1,12 +1,6 @@
 import React, { useState } from "react";
 import logo from "./assets/logo.svg";
 import clear from "./assets/clear.svg";
-import carrot from "./assets/carrot.svg";
-import cheese from "./assets/cheese.svg";
-import salad from "./assets/salad.svg";
-import wheat from "./assets/wheat.svg";
-import egg from "./assets/small-icons/egg.svg";
-import nut from "./assets/small-icons/nut.svg";
 import vegetarian from "./assets/small-icons/vegetarian.svg";
 import vegan from "./assets/small-icons/vegan.svg";
 import gf from "./assets/small-icons/gf.svg";
@@ -16,6 +10,7 @@ import primal from "./assets/small-icons/primal.svg";
 import paleo from "./assets/small-icons/paleo.svg";
 import whole30 from "./assets/small-icons/whole30.png";
 import "./App.css";
+import SearchTag from "./SearchTag.js";
 
 const diets = {
   "lacto ovo vegetarian": vegetarian,
@@ -27,6 +22,8 @@ const diets = {
   "fodmap friendly": fodmap,
   "whole 30": whole30,
 }
+
+const dietaryRestrictions = ["gluten-free", "vegetarian", "vegan", "dairy-free"];
 
 const apiKey = process.env.REACT_APP_API_KEY;
 
@@ -61,11 +58,6 @@ const App = () => {
     newIngredients.splice(index, 1);
     setIngredientList(newIngredients);
   }
-
-  // const fetchRecipe = async () => {
-  //   const formattedIngredients = ingredientList.join(",+").replace(" ", "");
-  //   console.log("fetchRecipe", formattedIngredients);
-  // }
   
   const fetchRecipe = async () => {
     const formattedIngredients = ingredientList.join(",+").replace(" ", "");
@@ -105,8 +97,11 @@ const App = () => {
         <div className="app-header-container">
           <img
             className="app-header-logo"
-            src={logo} />
-          <h1 className="header-page-title">Random Recipe Generator</h1>
+            src={logo} 
+            onClick={() => window.location.reload()}/>
+          <h1 
+            className="header-page-title"
+            onClick={() => window.location.reload()}>Random Recipe Generator</h1>
         </div>
       </header>
       <div className="app-content">
@@ -157,42 +152,14 @@ const App = () => {
           </form>
           <h3 className="search-ingredients-tags-title">Dietary Restrictions</h3>
           <div className="search-ingredients-tags">
-            <div 
-              className={includedTags.includes("gluten-free") ? "search-ingredient-tag search-tag-active" : "search-ingredient-tag"}
-              data-name="gluten-free"
-              onClick={assignTag}>
-              <img 
-                className="search-ingredient-tag-icon" 
-                src={wheat} />
-                Gluten Free
-            </div>
-            <div 
-              className={includedTags.includes("vegetarian") ? "search-ingredient-tag search-tag-active" : "search-ingredient-tag"}
-              data-name="vegetarian"
-              onClick={assignTag}>
-              <img 
-                className="search-ingredient-tag-icon" 
-                src={salad} />
-                Vegetarian
-            </div>
-            <div 
-              className={includedTags.includes("vegan") ? "search-ingredient-tag search-tag-active" : "search-ingredient-tag"}
-              data-name="vegan"
-              onClick={assignTag}>
-              <img 
-                className="search-ingredient-tag-icon" 
-                src={carrot} />
-                Vegan
-            </div>
-            <div 
-              className={includedTags.includes("dairy-free") ? "search-ingredient-tag search-tag-active" : "search-ingredient-tag"}
-              data-name="dairy-free"
-              onClick={assignTag}>
-              <img 
-                className="search-ingredient-tag-icon" 
-                src={cheese} />
-                Dairy Free
-            </div>
+            {dietaryRestrictions.map((tag) => {
+              return (
+                <SearchTag 
+                  includedTags={includedTags}
+                  assignTag={assignTag}
+                  tag={tag}/>
+              )
+            })}
           </div>
           <input
             onClick={fetchRecipe}
@@ -212,9 +179,10 @@ const App = () => {
                         <div 
                           key={index} 
                           className="recipe-tag">
-                            {!diets[tag] && ( {tag} )}
+                            {/* {!diets[tag] && ( {tag} )} */}
                           <img 
                             className="recipe-tag-icon" 
+                            alt={tag}
                             src={diets[tag]} />
                         </div>
                       )

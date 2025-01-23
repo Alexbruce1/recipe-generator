@@ -27,9 +27,11 @@ body {
   display: block;
   margin: 0;
   height: 45px;
+  cursor: pointer;
 }
 
 .header-page-title {
+  cursor: pointer;
   font-weight: 700;
   font-style: italic;
   }
