@@ -9,6 +9,7 @@ import fodmap from "./assets/small-icons/fodmap.svg";
 import primal from "./assets/small-icons/primal.svg";
 import paleo from "./assets/small-icons/paleo.svg";
 import whole30 from "./assets/small-icons/whole30.png";
+import drumstick from "./assets/small-icons/drumstick.svg";
 import "./App.css";
 import SearchTag from "./SearchTag.js";
 
@@ -21,6 +22,7 @@ const diets = {
   "primal": primal,
   "fodmap friendly": fodmap,
   "whole 30": whole30,
+  "ketogenic": drumstick,
 }
 
 const dietaryRestrictions = ["gluten-free", "vegetarian", "vegan", "dairy-free"];

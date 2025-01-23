@@ -35,7 +35,7 @@ const SearchTag = ({ includedTags, assignTag, tag }) => {
         src={dietaryRestrictionsKey.find((restriction) => restriction.tag === tag).icon} />
         {dietaryRestrictionsKey.find((restriction) => restriction.tag === tag).text}
     </div>
-)
-}
+  )
+};
 
 export default SearchTag;
