@@ -10,6 +10,7 @@ import primal from "./assets/small-icons/primal.svg";
 import paleo from "./assets/small-icons/paleo.svg";
 import whole30 from "./assets/small-icons/whole30.png";
 import drumstick from "./assets/small-icons/drumstick.svg";
+import fish from "./assets/small-icons/fish.svg";
 import "./App.css";
 import SearchTag from "./SearchTag.js";
 
@@ -23,6 +24,7 @@ const diets = {
   "fodmap friendly": fodmap,
   "whole 30": whole30,
   "ketogenic": drumstick,
+  "pescatarian": fish
 }
 
 const dietaryRestrictions = ["gluten-free", "vegetarian", "vegan", "dairy-free"];
@@ -181,7 +183,6 @@ const App = () => {
                         <div 
                           key={index} 
                           className="recipe-tag">
-                            {/* {!diets[tag] && ( {tag} )} */}
                           <img 
                             className="recipe-tag-icon" 
                             alt={tag}
