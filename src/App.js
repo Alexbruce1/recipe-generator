@@ -25,9 +25,10 @@ const diets = {
   "whole 30": whole30,
   "ketogenic": drumstick,
   "pescatarian": fish
-}
-
+};
 const dietaryRestrictions = ["gluten-free", "vegetarian", "vegan", "dairy-free"];
+const mealsList = ["breakfast", "brunch", "lunch", "dinner", "snack", "dessert"];
+const dishesList = ["main-dish", "side-dish", "appetizer", "salad", "soup"];
 
 const apiKey = process.env.REACT_APP_API_KEY;
 
@@ -35,6 +36,8 @@ const App = () => {
   const [ingredient, setIngredient] = useState("");
   const [ingredientList, setIngredientList] = useState([]);
   const [includedTags, setIncludedTags] = useState([]);
+  const [meals, setMeals] = useState([]);
+  const [dishes, setDishes] = useState([]);
   const [recipes, setRecipes] = useState([]);
 
   const handleInputChange = (e) => {
@@ -57,6 +60,28 @@ const App = () => {
     }
   }
 
+  const assignMeal = event => {
+    const tag = event.currentTarget.getAttribute("data-name");
+
+    if (meals.includes(tag)) {
+      const newTags = meals.filter((includedTag) => includedTag !== tag);
+      setMeals(newTags);
+    } else {
+      setMeals([...meals, tag]);
+    }
+  }
+
+  const assignDish = event => {
+    const tag = event.currentTarget.getAttribute("data-name");
+
+    if (dishes.includes(tag)) {
+      const newTags = dishes.filter((includedTag) => includedTag !== tag);
+      setDishes(newTags);
+    } else {
+      setDishes([...dishes, tag]);
+    }
+  };
+
   const removeIngredient = (index) => {
     const newIngredients = [...ingredientList];
     newIngredients.splice(index, 1);
@@ -65,13 +90,12 @@ const App = () => {
   
   const fetchRecipe = async () => {
     const formattedIngredients = ingredientList.join(",+").replace(" ", "");
-    
-    console.log("fetchRecipe", formattedIngredients);
+    const url = `https://api.spoonacular.com/recipes/random?ingredients=${formattedIngredients}&apiKey=${apiKey}&number=5&ranking=1&include-tags=${includedTags.join(",")}`;
+
+    console.log(url)
 
     try {
-      const response = await fetch(
-        `https://api.spoonacular.com/recipes/random?ingredients=${formattedIngredients}&apiKey=${apiKey}&number=5&ranking=1&include-tags=${includedTags.join(",")}`
-      );
+      const response = await fetch(url);
       const data = await response.json();
   
       if (data.recipes && data.recipes.length > 0) {
@@ -161,6 +185,25 @@ const App = () => {
                 <SearchTag 
                   includedTags={includedTags}
                   assignTag={assignTag}
+                  tag={tag}/>
+              )
+            })}
+          </div>
+          <h3 className="search-ingredients-tags-title">Meals And Dishes</h3>
+          <div className="search-ingredients-tags">
+            {mealsList.map((tag) => {
+              return (
+                <SearchTag 
+                  includedTags={meals}
+                  assignTag={assignMeal}
+                  tag={tag}/>
+              )
+            })}
+            {dishesList.map((tag) => {
+              return (
+                <SearchTag 
+                  includedTags={dishes}
+                  assignTag={assignDish}
                   tag={tag}/>
               )
             })}

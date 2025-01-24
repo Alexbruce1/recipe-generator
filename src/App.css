@@ -141,6 +141,7 @@ body {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  transition-duration: .3s;
 }
 
 .search-tag-active {
