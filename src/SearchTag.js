@@ -86,7 +86,6 @@ const SearchTag = ({ includedTags, assignTag, tag }) => {
   const [tagText, setTagText] = useState("");
 
   useEffect(() => {
-    console.log(tag)
     if (foodKey.find((category) => category.tag === tag)) {
       setIcon(foodKey.find((category) => category.tag === tag).icon);
     } else {

@@ -67,11 +67,7 @@ const App = () => {
     const formattedIngredients = ingredientList.join(",").replace(" ", "");
     const formattedTags = includedTags.join(",").replace("-", "+");
 
-    console.log(formattedTags)
-
     const url = `https://api.spoonacular.com/recipes/random?ingredients=${formattedIngredients}&apiKey=${apiKey}&number=5&ranking=1${includedTags.length > 0 ? `&tags=${formattedTags}` : ""}`;
-
-    console.log(url)
 
     try {
       const response = await fetch(url);
@@ -79,7 +75,6 @@ const App = () => {
   
       if (data.recipes && data.recipes.length > 0) {
         setRecipes(data.recipes);
-        console.log(data.recipes)
       } else {
         setRecipes({
           title: "No recipes found",
@@ -95,7 +90,6 @@ const App = () => {
         description: "Please try again later.",
       });
     }
-
   };
 
   return (
