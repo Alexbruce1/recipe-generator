@@ -10,6 +10,7 @@ import primal from "./assets/small-icons/primal.svg";
 import paleo from "./assets/small-icons/paleo.svg";
 import whole30 from "./assets/small-icons/whole30.png";
 import drumstick from "./assets/small-icons/drumstick.svg";
+import fish from "./assets/small-icons/fish.svg";
 import "./App.css";
 import SearchTag from "./SearchTag.js";
 
@@ -23,9 +24,10 @@ const diets = {
   "fodmap friendly": fodmap,
   "whole 30": whole30,
   "ketogenic": drumstick,
-}
-
+  "pescatarian": fish
+};
 const dietaryRestrictions = ["gluten-free", "vegetarian", "vegan", "dairy-free"];
+const dishes = ["breakfast", "brunch", "lunch", "dinner", "snack", "dessert", "main-dish", "side-dish", "appetizer", "salad", "soup"];
 
 const apiKey = process.env.REACT_APP_API_KEY;
 
@@ -62,19 +64,17 @@ const App = () => {
   }
   
   const fetchRecipe = async () => {
-    const formattedIngredients = ingredientList.join(",+").replace(" ", "");
-    
-    console.log("fetchRecipe", formattedIngredients);
+    const formattedIngredients = ingredientList.join(",").replace(" ", "");
+    const formattedTags = includedTags.join(",").replace("-", "+");
+
+    const url = `https://api.spoonacular.com/recipes/random?ingredients=${formattedIngredients}&apiKey=${apiKey}&number=5&ranking=1${includedTags.length > 0 ? `&tags=${formattedTags}` : ""}`;
 
     try {
-      const response = await fetch(
-        `https://api.spoonacular.com/recipes/random?ingredients=${formattedIngredients}&apiKey=${apiKey}&number=5&ranking=1&include-tags=${includedTags.join(",")}`
-      );
+      const response = await fetch(url);
       const data = await response.json();
   
       if (data.recipes && data.recipes.length > 0) {
         setRecipes(data.recipes);
-        console.log(data.recipes)
       } else {
         setRecipes({
           title: "No recipes found",
@@ -90,7 +90,6 @@ const App = () => {
         description: "Please try again later.",
       });
     }
-
   };
 
   return (
@@ -163,6 +162,17 @@ const App = () => {
               )
             })}
           </div>
+          <h3 className="search-ingredients-tags-title">Meals And Dishes</h3>
+          <div className="search-ingredients-tags">
+            {dishes.map((tag) => {
+              return (
+                <SearchTag 
+                  includedTags={includedTags}
+                  assignTag={assignTag}
+                  tag={tag}/>
+              )
+            })}
+          </div>
           <input
             onClick={fetchRecipe}
             type="button"
@@ -181,7 +191,6 @@ const App = () => {
                         <div 
                           key={index} 
                           className="recipe-tag">
-                            {/* {!diets[tag] && ( {tag} )} */}
                           <img 
                             className="recipe-tag-icon" 
                             alt={tag}
