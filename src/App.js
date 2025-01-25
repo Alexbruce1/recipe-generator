@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import RecipeDetails from "./RecipeDetails";
 import logo from "./assets/logo.svg";
 import clear from "./assets/clear.svg";
 import vegetarian from "./assets/small-icons/vegetarian.svg";
@@ -72,6 +74,8 @@ const App = () => {
     try {
       const response = await fetch(url);
       const data = await response.json();
+
+      console.log(data.recipes);
   
       if (data.recipes && data.recipes.length > 0) {
         setRecipes(data.recipes);
@@ -93,125 +97,143 @@ const App = () => {
   };
 
   return (
-    <div className="App">
-      <header className="app-header">
-        <div className="app-header-container">
-          <img
-            className="app-header-logo"
-            src={logo} 
-            onClick={() => window.location.reload()}/>
-          <h1 
-            className="header-page-title"
-            onClick={() => window.location.reload()}>Random Recipe Generator</h1>
-        </div>
-      </header>
-      <div className="app-content">
-        <div className="search-box">
-          <form 
-            className="search-ingredients-container" 
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleAddIngredient();
-              }}>
-            <div className="search-ingredients-top-line">
-              <input
-                type="text"
-                value={ingredient}
-                className="search-ingredients-input"
-                onChange={handleInputChange}
-                placeholder="Enter an ingredient that you want to use"/>
-              <button
-                className="form-button"
-                type="submit">
-                Add
-              </button>
-            </div>
-            {ingredientList && ingredientList.length > 0 && (
-              <div className="ingredient-list">
-                {ingredientList.map((ingredient, index) => {
-                  return (
-                    <li key={index} className="ingredient-list-item">
-                      {ingredient}
-                      <img 
-                        className="remove-item-x" 
-                        src={clear} 
-                        onClick={() => {
-                          removeIngredient(index);
-                        }}/>
-                    </li>
-                  )
-                })}
-                {ingredientList.length > 1 && (
-                  <div 
-                    className="ingredient-list-item clear-all-button"
-                    onClick={() => setIngredientList([])}>
-                    Clear all
+    <Router>
+
+      <div className="App">
+        <header className="app-header">
+          <div className="app-header-container">
+            <img
+              className="app-header-logo"
+              src={logo} 
+              onClick={() => window.location = '/'}/>
+            <h1 
+              className="header-page-title"
+              onClick={() => window.location = '/'}>Random Recipe Generator</h1>
+          </div>
+        </header>
+        <Routes>
+          <Route 
+            path="/"
+            element={
+            <div className="app-content">
+              <div className="search-box">
+                <form 
+                  className="search-ingredients-container" 
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    handleAddIngredient();
+                    }}>
+                  <div className="search-ingredients-top-line">
+                    <input
+                      type="text"
+                      value={ingredient}
+                      className="search-ingredients-input"
+                      onChange={handleInputChange}
+                      placeholder="Enter an ingredient that you want to use"/>
+                    <button
+                      className="form-button"
+                      type="submit">
+                      Add
+                    </button>
                   </div>
-                )}
-              </div>
-            )}
-          </form>
-          <h3 className="search-ingredients-tags-title">Dietary Restrictions</h3>
-          <div className="search-ingredients-tags">
-            {dietaryRestrictions.map((tag) => {
-              return (
-                <SearchTag 
-                  includedTags={includedTags}
-                  assignTag={assignTag}
-                  tag={tag}/>
-              )
-            })}
-          </div>
-          <h3 className="search-ingredients-tags-title">Meals And Dishes</h3>
-          <div className="search-ingredients-tags">
-            {dishes.map((tag) => {
-              return (
-                <SearchTag 
-                  includedTags={includedTags}
-                  assignTag={assignTag}
-                  tag={tag}/>
-              )
-            })}
-          </div>
-          <input
-            onClick={fetchRecipe}
-            type="button"
-            value="Get Recipes"
-            className="form-button"
-          />
-        </div>
-        {recipes && recipes.length > 0 && recipes.map((recipe) => {
-          return (
-            <div key={recipe.id} className="recipe">
-              <div className="recipe-top-section">
-                {recipe.diets && recipe.diets.length > 0 && (
-                  <div className="recipe-tags">
-                    {recipe.diets.map((tag, index) => {
-                      return (
+                  {ingredientList && ingredientList.length > 0 && (
+                    <div className="ingredient-list">
+                      {ingredientList.map((ingredient, index) => {
+                        return (
+                          <li key={index} className="ingredient-list-item">
+                            {ingredient}
+                            <img 
+                              className="remove-item-x" 
+                              src={clear} 
+                              onClick={() => {
+                                removeIngredient(index);
+                              }}/>
+                          </li>
+                        )
+                      })}
+                      {ingredientList.length > 1 && (
                         <div 
-                          key={index} 
-                          className="recipe-tag">
-                          <img 
-                            className="recipe-tag-icon" 
-                            alt={tag}
-                            src={diets[tag]} />
+                          className="ingredient-list-item clear-all-button"
+                          onClick={() => setIngredientList([])}>
+                          Clear all
                         </div>
-                      )
-                    })}
-                  </div>
-                )}
+                      )}
+                    </div>
+                  )}
+                </form>
+                <h3 className="search-ingredients-tags-title">Dietary Restrictions</h3>
+                <div className="search-ingredients-tags">
+                  {dietaryRestrictions.map((tag) => {
+                    return (
+                      <SearchTag 
+                        includedTags={includedTags}
+                        assignTag={assignTag}
+                        tag={tag}/>
+                    )
+                  })}
+                </div>
+                <h3 className="search-ingredients-tags-title">Meals And Dishes</h3>
+                <div className="search-ingredients-tags">
+                  {dishes.map((tag) => {
+                    return (
+                      <SearchTag 
+                        includedTags={includedTags}
+                        assignTag={assignTag}
+                        tag={tag}/>
+                    )
+                  })}
+                </div>
+                <input
+                  onClick={fetchRecipe}
+                  type="button"
+                  value="Get Recipes"
+                  className="form-button"
+                />
               </div>
-              <h2>{recipe.title}</h2>
-              <img 
-                src={recipe.image} 
-                alt={recipe.title} 
-                className="recipe-image" />
-              <p>{recipe.description}</p>
+              {recipes && recipes.length > 0 && recipes.map((recipe) => {
+                return (
+                  <Link 
+                    key={recipe.id} 
+                    className="recipe-link"
+                    to={`/recipes/${recipe.id}`}>
+                    <div className="recipe">
+                      <div className="recipe-top-section">
+                        {recipe.diets && recipe.diets.length > 0 && (
+                          <div className="recipe-tags">
+                            {recipe.diets.map((tag, index) => {
+                              return (
+                                <div 
+                                  key={index} 
+                                  className="recipe-tag">
+                                  <img 
+                                    className="recipe-tag-icon" 
+                                    alt={tag}
+                                    src={diets[tag]} />
+                                </div>
+                              )
+                            })}
+                          </div>
+                        )}
+                      </div>
+                      <h2>{recipe.title}</h2>
+                      <img 
+                        src={recipe.image} 
+                        alt={recipe.title} 
+                        className="recipe-image" />
+                      <p>{recipe.description}</p>
+                    </div>
+                  </Link>
+                )
+              })}
             </div>
-          )
-        })}
+          }/>
+          <Route 
+            path="/recipes/:id" 
+            element={<RecipeDetails 
+              recipes={recipes}/>}/>
+        </Routes>
       </div>
-    </div>
+    </Router>
   );
 };
 

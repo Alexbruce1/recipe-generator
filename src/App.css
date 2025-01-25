@@ -157,12 +157,19 @@ body {
   margin: 0;
 }
 
+.recipe-link {
+  color: #333;
+  text-decoration: none;
+}
+
 .recipe {
   background: #fff;
   margin: 20px 0;
   padding: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .recipe-top-section {
