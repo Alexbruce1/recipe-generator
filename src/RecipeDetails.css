@@ -25,16 +25,20 @@
   top: -400px;
 }
 
-.recipe-details-top-section {
+.recipe-details-top-section,
+.recipe-details-bottom-section {
   position: relative;
   top: -550px;
-  /* display: flex; */
   position: relative;
 }
 
 .recipe-details-title {
   margin-left: 10px;
   margin-bottom: 0;
+  text-decoration: none;
+  color: #333;
+  font-size: 32px;
+  font-weight: 800;
 }
 
 .recipe-details-tags {
@@ -50,4 +54,24 @@
 
 .recipe-details-tag-icon {
   height: 20px;
+}
+
+.recipe-details-bottom-section {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.recipe-details-summary {
+  width: 60%;
+}
+
+.recipe-details-summary a {
+  color: #333;
+}
+
+.recipe-details-ingredients {
+  background-color: #fff;
+  width: 40%;
+  padding: 20px;
 }
