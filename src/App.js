@@ -117,6 +117,7 @@ const App = () => {
             <img
               className="app-header-logo"
               src={logo} 
+              alt="Random Recipe Generator"
               onClick={() => window.location = '/'}/>
             <h1 
               className="header-page-title"
@@ -157,6 +158,7 @@ const App = () => {
                             <img 
                               className="remove-item-x" 
                               src={clear} 
+                              alt="Remove ingredient"
                               onClick={() => {
                                 removeIngredient(index);
                               }}/>

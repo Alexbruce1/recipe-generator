@@ -9,7 +9,6 @@ const RecipeDetails = ({ recipes, dietIcons, fetchRecipeById }) => {
   const [visibleRecipe, setVisibleRecipe] = useState({});
 
   useEffect(() => {
-
     const fetchAndSetRecipe = async () => {
       if (recipes.length === 0) {
         try {
@@ -26,12 +25,8 @@ const RecipeDetails = ({ recipes, dietIcons, fetchRecipeById }) => {
     };
   
     fetchAndSetRecipe();
-
   }, [recipes, id]);
   
-  useEffect(() => {
-  }, [visibleRecipe]);
-
   return (
     <div className="recipe-details">
       <img 
