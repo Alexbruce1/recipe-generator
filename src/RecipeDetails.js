@@ -2,10 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import "./RecipeDetails.css";
 
-const RecipeDetails = ({ recipes, dietIcons, fetchRecipeById }) => {
+const RecipeDetails = ({ recipes, fetchRecipeById }) => {
   const { id } = useParams();
   const recipe = recipes.find((recipe) => recipe.id === parseInt(id));
-  
   const [visibleRecipe, setVisibleRecipe] = useState({});
 
   useEffect(() => {
@@ -23,58 +22,71 @@ const RecipeDetails = ({ recipes, dietIcons, fetchRecipeById }) => {
         setVisibleRecipe(recipes.find((recipe) => recipe.id === parseInt(id)));
       }
     };
-  
-    fetchAndSetRecipe();
-  }, [recipes, id]);
-  
-  return (
-    visibleRecipe ? (
 
-      <div className="recipe-details">
-        <img 
-          className="recipe-bg-image" 
-          src={visibleRecipe && visibleRecipe.image} 
-          alt={visibleRecipe && visibleRecipe.title} />
-        <div className="recipe-image-overlay"></div>
-        <div className="recipe-details-top-section">
-           <a
-            className="recipe-details-title"
-            href={visibleRecipe.sourceUrl}>
-              {visibleRecipe.title.split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ")}
-          </a>
-          <div className="recipe-details-tags">
-            {visibleRecipe && visibleRecipe.diets > 0 && visibleRecipe.diets.map((tag, index) => {
-              return (
-                <div key={index} className="recipe-details-tag">
-                  <img 
-                    className="recipe-details-tag-icon" 
-                    alt={tag}
-                    src={dietIcons[tag]} />
-                </div>
-              )
-            })}
+    fetchAndSetRecipe();
+  }, [recipes, id, fetchRecipeById]);
+
+  const processedSummary = visibleRecipe.summary.replace(/<a/g, "<a");
+
+  return visibleRecipe ? (
+    <div className="recipe-details">
+      <img
+        className="recipe-bg-image"
+        src={visibleRecipe.image || ""}
+        alt={visibleRecipe.title || "Recipe"}
+      />
+      <div className="recipe-image-overlay"></div>
+      <div className="recipe-details-top-section">
+        <a
+          className="recipe-details-title"
+          href={visibleRecipe.sourceUrl || "#"}
+        >
+          {visibleRecipe.title
+            ? visibleRecipe.title
+                .split(" ")
+                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(" ")
+            : "No Title"}
+        </a>
+        <div className="recipe-details-tags">
+          {visibleRecipe.diets?.length > 0 &&
+            visibleRecipe.diets.map((tag, index) => (
+              <p key={index} className="recipe-details-tag">
+                {tag
+                  .split(" ")
+                  .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                  .join(" ")}
+              </p>
+            ))}
+        </div>
+      </div>
+      <div className="recipe-details-bottom-section">
+        <p
+          className="recipe-details-summary"
+          dangerouslySetInnerHTML={{ __html: processedSummary || "No summary available." }}
+        ></p>
+        <div className="recipe-details-second-row">
+          <div className="recipe-details-ingredients">
+            <h3>Ingredients</h3>
+            <ul className="recipe-details-ingredient-list">
+              {visibleRecipe.extendedIngredients?.map((ingredient, index) => (
+                <li 
+                  key={index}
+                  className="ingredient-item">
+                    <p className="ingredient-amount">{ingredient.amount}</p>
+                    <p className="ingredient-unit">{ingredient.unit}</p>
+                    <p className="ingredient-name">{ingredient.originalName}</p>
+                  </li>
+              ))}
+            </ul>
           </div>
         </div>
-        <div className="recipe-details-bottom-section">
-          <p className="recipe-details-summary">{visibleRecipe.summary}</p>
-          <div className="recipe-details-ingredients">
-             <h3>Ingredients</h3>
-             <ul>
-               {visibleRecipe.extendedIngredients.map((ingredient, index) => {
-                return (
-                  <li 
-                    key={index}>{ingredient.original}</li>
-                )
-              })}
-            </ul>
-           </div>
-        </div>
       </div>
-    ) : (
-      <div className="recipe-details">
-        <h1 className="recipe-details-title">Recipe Not Found</h1>
-      </div>
-    )
+    </div>
+  ) : (
+    <div className="recipe-details">
+      <h1 className="recipe-details-title">Recipe Not Found</h1>
+    </div>
   );
 };
 

@@ -245,7 +245,6 @@ const App = () => {
             path="/recipes/:id" 
             element={<RecipeDetails 
               recipes={recipes}
-              dietIcons={diets}
               fetchRecipeById={fetchRecipeById}/>}/>
         </Routes>
       </div>
