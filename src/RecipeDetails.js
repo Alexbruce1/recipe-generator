@@ -9,7 +9,7 @@ const RecipeDetails = ({ recipes, fetchRecipeById }) => {
 
   useEffect(() => {
     const fetchAndSetRecipe = async () => {
-      if (recipes.length === 0) {
+      if (!recipe) {
         try {
           const fetchedRecipe = await fetchRecipeById(id);
           if (fetchedRecipe) {
@@ -19,14 +19,16 @@ const RecipeDetails = ({ recipes, fetchRecipeById }) => {
           console.error("Error fetching recipe by ID:", error);
         }
       } else {
-        setVisibleRecipe(recipes.find((recipe) => recipe.id === parseInt(id)));
+        setVisibleRecipe(recipe);
       }
     };
 
     fetchAndSetRecipe();
-  }, [recipes, id, fetchRecipeById]);
+  }, [recipe, id, fetchRecipeById]);
 
-  const processedSummary = visibleRecipe.summary.replace(/<a/g, "<a");
+  const processedSummary = visibleRecipe.summary
+    ? visibleRecipe.summary.replace(/<a/g, "<a")
+    : "No summary available.";
 
   return visibleRecipe ? (
     <div className="recipe-details">
@@ -63,7 +65,7 @@ const RecipeDetails = ({ recipes, fetchRecipeById }) => {
       <div className="recipe-details-bottom-section">
         <p
           className="recipe-details-summary"
-          dangerouslySetInnerHTML={{ __html: processedSummary || "No summary available." }}
+          dangerouslySetInnerHTML={{ __html: processedSummary }}
         ></p>
         <div className="recipe-details-second-row">
           <div className="recipe-details-ingredients">
@@ -74,7 +76,7 @@ const RecipeDetails = ({ recipes, fetchRecipeById }) => {
                   key={index}
                   className="ingredient-item">
                     <p className="ingredient-amount">{ingredient.amount}</p>
-                    <p className="ingredient-unit">{ingredient.unit}</p>
+                    <p className="ingredient-unit">{ingredient.unit.includes("serving") ? "" : ingredient.unit}</p>
                     <p className="ingredient-name">{ingredient.originalName}</p>
                   </li>
               ))}
