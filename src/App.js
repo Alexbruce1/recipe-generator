@@ -33,6 +33,21 @@ const dishes = ["breakfast", "brunch", "lunch", "dinner", "snack", "dessert", "m
 
 const apiKey = process.env.REACT_APP_API_KEY;
 
+const fetchRecipeById = async (id) => {
+  const apiKey = process.env.REACT_APP_API_KEY;
+  const url = `https://api.spoonacular.com/recipes/${id}/information?apiKey=${apiKey}`;
+  // const url = `https://api.spoonacular.com/recipes/random?apiKey=${apiKey}&id=${id}`;
+
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching recipe:", error);
+    return null;
+  }
+};
+
 const App = () => {
   const [ingredient, setIngredient] = useState("");
   const [ingredientList, setIngredientList] = useState([]);
@@ -74,8 +89,6 @@ const App = () => {
     try {
       const response = await fetch(url);
       const data = await response.json();
-
-      console.log(data.recipes);
   
       if (data.recipes && data.recipes.length > 0) {
         setRecipes(data.recipes);
@@ -98,13 +111,13 @@ const App = () => {
 
   return (
     <Router>
-
       <div className="App">
         <header className="app-header">
           <div className="app-header-container">
             <img
               className="app-header-logo"
               src={logo} 
+              alt="Random Recipe Generator"
               onClick={() => window.location = '/'}/>
             <h1 
               className="header-page-title"
@@ -145,6 +158,7 @@ const App = () => {
                             <img 
                               className="remove-item-x" 
                               src={clear} 
+                              alt="Remove ingredient"
                               onClick={() => {
                                 removeIngredient(index);
                               }}/>
@@ -230,7 +244,8 @@ const App = () => {
           <Route 
             path="/recipes/:id" 
             element={<RecipeDetails 
-              recipes={recipes}/>}/>
+              recipes={recipes}
+              fetchRecipeById={fetchRecipeById}/>}/>
         </Routes>
       </div>
     </Router>
