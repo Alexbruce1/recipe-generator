@@ -9,7 +9,7 @@ const RecipeDetails = ({ recipes, fetchRecipeById }) => {
 
   useEffect(() => {
     const fetchAndSetRecipe = async () => {
-      if (!recipe) {
+      if (!recipe || !recipe.extendedIngredients) {
         try {
           const fetchedRecipe = await fetchRecipeById(id);
           if (fetchedRecipe) {

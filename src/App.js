@@ -36,7 +36,6 @@ const apiKey = process.env.REACT_APP_API_KEY;
 const fetchRecipeById = async (id) => {
   const apiKey = process.env.REACT_APP_API_KEY;
   const url = `https://api.spoonacular.com/recipes/${id}/information?apiKey=${apiKey}`;
-  // const url = `https://api.spoonacular.com/recipes/random?apiKey=${apiKey}&id=${id}`;
 
   try {
     const response = await fetch(url);
@@ -84,14 +83,14 @@ const App = () => {
     const formattedIngredients = ingredientList.join(",").replace(" ", "");
     const formattedTags = includedTags.join(",").replace("-", "+");
 
-    const url = `https://api.spoonacular.com/recipes/random?ingredients=${formattedIngredients}&apiKey=${apiKey}&number=5&ranking=1${includedTags.length > 0 ? `&tags=${formattedTags}` : ""}`;
+    const url = `https://api.spoonacular.com/recipes/complexSearch${formattedIngredients.length > 0 ? `?includeIngredients=${formattedIngredients}` : ""}&apiKey=${apiKey}&number=5&ranking=1${includedTags.length > 0 ? `&include-tags=${formattedTags}&instructionsRequired=true` : ""}`;
 
     try {
       const response = await fetch(url);
       const data = await response.json();
   
-      if (data.recipes && data.recipes.length > 0) {
-        setRecipes(data.recipes);
+      if (data.results && data.results.length > 0) {
+        setRecipes(data.results);
       } else {
         setRecipes({
           title: "No recipes found",
