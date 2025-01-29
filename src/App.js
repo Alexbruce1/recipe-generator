@@ -82,8 +82,13 @@ const App = () => {
   const fetchRecipe = async () => {
     const formattedIngredients = ingredientList.join(",").replace(" ", "");
     const formattedTags = includedTags.join(",").replace("-", "+");
+    let url;
 
-    const url = `https://api.spoonacular.com/recipes/complexSearch${formattedIngredients.length > 0 ? `?includeIngredients=${formattedIngredients}` : ""}&apiKey=${apiKey}&number=5&ranking=1${includedTags.length > 0 ? `&include-tags=${formattedTags}&instructionsRequired=true` : ""}`;
+    if (formattedIngredients.length === 0 && includedTags.length === 0) {
+      url = `https://api.spoonacular.com/recipes/random?apiKey=${apiKey}&number=5`;
+    } else {
+      url = `https://api.spoonacular.com/recipes/complexSearch${formattedIngredients.length > 0 ? `?includeIngredients=${formattedIngredients}` : ""}&apiKey=${apiKey}&number=5&ranking=1${includedTags.length > 0 ? `&include-tags=${formattedTags}&instructionsRequired=true` : ""}`;
+    }
 
     try {
       const response = await fetch(url);
@@ -91,6 +96,8 @@ const App = () => {
   
       if (data.results && data.results.length > 0) {
         setRecipes(data.results);
+      } else if (data.recipes && data.recipes.length > 0) {
+        setRecipes(data.recipes);
       } else {
         setRecipes({
           title: "No recipes found",
