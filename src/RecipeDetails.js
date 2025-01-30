@@ -30,19 +30,24 @@ const RecipeDetails = ({ recipes, fetchRecipeById }) => {
     ? visibleRecipe.summary.replace(/<a/g, "<a")
     : "No summary available.";
 
+  const processedInstructions = visibleRecipe.summary
+    ? visibleRecipe.instructions.replace(/<a/g, "<a")
+    : "No summary available.";
+
   return visibleRecipe ? (
     <div className="recipe-details">
-      <img
-        className="recipe-bg-image"
-        src={visibleRecipe.image || ""}
-        alt={visibleRecipe.title || "Recipe"}
-      />
-      <div className="recipe-image-overlay"></div>
+      {visibleRecipe.image && (
+        <img
+          className="recipe-bg-image"
+          src={visibleRecipe.image}
+          alt={visibleRecipe.title || "Recipe"}
+        />
+      )}
       <div className="recipe-details-top-section">
         <a
           className="recipe-details-title"
-          href={visibleRecipe.sourceUrl || "#"}
-        >
+          target="_blank"
+          href={visibleRecipe.sourceUrl || "#"}>
           {visibleRecipe.title
             ? visibleRecipe.title
                 .split(" ")
@@ -63,26 +68,42 @@ const RecipeDetails = ({ recipes, fetchRecipeById }) => {
         </div>
       </div>
       <div className="recipe-details-bottom-section">
+        <p className="ready-in-minutes">Ready in {visibleRecipe.readyInMinutes} minutes</p>
         <p
           className="recipe-details-summary"
           dangerouslySetInnerHTML={{ __html: processedSummary }}
         ></p>
         <div className="recipe-details-second-row">
           <div className="recipe-details-ingredients">
-            <h3>Ingredients</h3>
+            <h2 className="recipe-details-header">Ingredients</h2>
+            <p className="recipe-details-ingredient-list">{visibleRecipe.servings} servings</p>
             <ul className="recipe-details-ingredient-list">
               {visibleRecipe.extendedIngredients?.map((ingredient, index) => (
                 <li 
                   key={index}
                   className="ingredient-item">
-                    <p className="ingredient-amount">{ingredient.amount}</p>
-                    <p className="ingredient-unit">{ingredient.unit.includes("serving") ? "" : ingredient.unit}</p>
-                    <p className="ingredient-name">{ingredient.originalName}</p>
+                    <p className="ingredient-amount">{ingredient.original}</p>
                   </li>
               ))}
             </ul>
           </div>
         </div>
+        {visibleRecipe.analyzedInstructions?.length > 0 && (
+          <div className="recipe-details-instructions">
+            <h2 className="recipe-details-header">Instructions</h2>
+            <div className="recipe-details-instruction-list">
+              {visibleRecipe.analyzedInstructions?.[0].steps.map((step, index) => (
+                <div key={index} className="instruction-item">
+                  <div className="instruction-item-top-line">
+                    <p className="instruction-number">{index + 1}</p>
+                    <p className="instruction-time">{step?.length?.number} {step?.length?.unit}</p>
+                  </div>
+                  <p className="instruction-text">{step?.step}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   ) : (

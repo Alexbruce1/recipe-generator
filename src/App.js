@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import RecipeDetails from "./RecipeDetails";
 import logo from "./assets/logo.svg";
@@ -87,8 +87,10 @@ const App = () => {
     if (formattedIngredients.length === 0 && includedTags.length === 0) {
       url = `https://api.spoonacular.com/recipes/random?apiKey=${apiKey}&number=5`;
     } else {
-      url = `https://api.spoonacular.com/recipes/complexSearch${formattedIngredients.length > 0 ? `?includeIngredients=${formattedIngredients}` : ""}&apiKey=${apiKey}&number=5&ranking=1${includedTags.length > 0 ? `&include-tags=${formattedTags}&instructionsRequired=true` : ""}`;
+      url = `https://api.spoonacular.com/recipes/complexSearch${formattedIngredients.length > 0 ? `?includeIngredients=${formattedIngredients}` : "?"}&apiKey=${apiKey}&number=5&ranking=1${includedTags.length > 0 ? `&tags=${formattedTags}&instructionsRequired=true` : ""}`;
     }
+    
+    console.log(url)
 
     try {
       const response = await fetch(url);
@@ -107,11 +109,13 @@ const App = () => {
       }
     } catch (error) {
       console.error("Error fetching recipe:", error);
-      setRecipes({
-        title: "Error fetching recipe",
-        image: "https://via.placeholder.com/150",
-        description: "Please try again later.",
-      });
+      setRecipes([
+        {
+          title: "Error fetching recipe",
+          image: "https://via.placeholder.com/150",
+          description: "Please try again later.",
+        }
+      ]);
     }
   };
 
@@ -127,7 +131,7 @@ const App = () => {
               onClick={() => window.location = '/'}/>
             <h1 
               className="header-page-title"
-              onClick={() => window.location = '/'}>Random Recipe Generator</h1>
+              onClick={() => window.location = '/'}>Recipe Generator</h1>
           </div>
         </header>
         <Routes>
