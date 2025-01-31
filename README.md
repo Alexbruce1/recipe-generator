@@ -1,70 +1,45 @@
-# Getting Started with Create React App
+# Recipe Finder
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Ever stared into your fridge, clueless about what to cook? This simple app has your back. Built with **React** and powered by the **Spoonacular API**, it lets you search for recipes based on ingredients or dietary preferences. Or, if you’re feeling adventurous, click the **Random Recipe** button and let fate decide what’s for dinner.
 
-## Available Scripts
+## Features
+- **Search for Recipes** – Type in ingredients, and the app finds matching recipes. No more "I only have eggs and hot sauce" moments.
+- **Random Recipe Generator** – A random recipe is **preloaded** when you open the app, so when you click the button, it’s ready to go.
+- **Instant Navigation** – Click on any recipe, and it opens a detailed page with ingredients, instructions, and more.
+- **Fast & Smooth UI** – No unnecessary page reloads, just **React doing its thing**.
 
-In the project directory, you can run:
+## Tech Stack
+- **React (Hooks, Router)** – The backbone of the app, making everything feel snappy.
+- **Spoonacular API** – Fetches real-time recipes so you’re always working with fresh data.
+- **CSS** – Because ugly UIs are illegal.
 
-### `npm start`
+## Why This is Cool
+- **Instant Loading** – Prefetching means the random recipe is **already loaded** when you click the button. No waiting, just instant results.
+- **API-Driven** – Recipes update in real-time, so you’re never stuck with the same old results.
+- **Expandable** – Want to add meal planning? User accounts? Grocery list integration? The structure makes it easy.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## How to Run
+1. **Clone the repo**
+   ```sh
+   git clone https://github.com/yourusername/recipe-app.git
+   cd recipe-app
+2. **Install Dependencies**
+    ```sh
+    npm install
+3. **Set up your API Key**
+- Create a .env file in the root folder
+- Add this line:
+    ```sh
+    REACT_APP_API_KEY=<your_api_key>
+4. **Run the app**
+    ```sh
+    npm start
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+5. **Open http://localhost:3000 and start exploring recipes.**
 
-### `npm test`
+## Why This Matters
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This project shows my ability to:
+- **Work with external APIs** and handle async data like a pro.
+- **Use React Router & hooks** to create a seamless experience.
+- **Optimize performance** by preloading data so users aren’t waiting around.
