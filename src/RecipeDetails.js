@@ -5,6 +5,7 @@ import "./RecipeDetails.css";
 const RecipeDetails = ({ recipes, fetchRecipeById }) => {
   const { id } = useParams();
   const recipe = recipes.find((recipe) => recipe.id === parseInt(id));
+  const ingredientImageBaseUrl = 'https://img.spoonacular.com/ingredients_100x100/';
   const [visibleRecipe, setVisibleRecipe] = useState({});
 
   useEffect(() => {
@@ -82,7 +83,9 @@ const RecipeDetails = ({ recipes, fetchRecipeById }) => {
                 <li 
                   key={index}
                   className="ingredient-item">
+                    <input type="checkbox" />
                     <p className="ingredient-amount">{ingredient.original}</p>
+                    <img className="ingredient-item-image" src={ingredientImageBaseUrl + ingredient.image} />
                   </li>
               ))}
             </ul>
@@ -95,15 +98,30 @@ const RecipeDetails = ({ recipes, fetchRecipeById }) => {
               {visibleRecipe.analyzedInstructions?.[0].steps.map((step, index) => (
                 <div key={index} className="instruction-item">
                   <div className="instruction-item-top-line">
-                    <p className="instruction-number">{index + 1}</p>
+                      <p className="instruction-number">{index + 1}.</p>
                     <p className="instruction-time">{step?.length?.number} {step?.length?.unit}</p>
                   </div>
                   <p className="instruction-text">{step?.step}</p>
+                  {/* {step?.ingredients?.length > 0 && (
+                    step.ingredients.map((ingredient) => {
+                      return (
+                        <img src={ingredientImageBaseUrl + ingredient.image} />
+                      )
+                    })
+                  )} */}
                 </div>
               ))}
             </div>
           </div>
         )}
+      </div>
+      <div className="recipe-details-source">
+        <a
+          className="recipe-details-source-link"
+          target="_blank"
+          href={visibleRecipe.sourceUrl || "#"}>
+          View Full Recipe
+        </a>
       </div>
     </div>
   ) : (
