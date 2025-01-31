@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import RecipeDetails from "./RecipeDetails";
 import logo from "./assets/logo.svg";
@@ -36,8 +36,7 @@ const apiKey = process.env.REACT_APP_API_KEY;
 const fetchRecipeById = async (id) => {
   const apiKey = process.env.REACT_APP_API_KEY;
   const url = `https://api.spoonacular.com/recipes/${id}/information?apiKey=${apiKey}`;
-  // const url = `https://api.spoonacular.com/recipes/random?apiKey=${apiKey}&id=${id}`;
-
+  
   try {
     const response = await fetch(url);
     const data = await response.json();
@@ -53,17 +52,32 @@ const App = () => {
   const [ingredientList, setIngredientList] = useState([]);
   const [includedTags, setIncludedTags] = useState([]);
   const [recipes, setRecipes] = useState([]);
+  const [randomRecipeId, setRandomRecipeId] = useState(null);
+
+  useEffect(() => {
+    const fetchRandomRecipe = async () => {
+      let url = `https://api.spoonacular.com/recipes/random?apiKey=${apiKey}&number=1`;
+  
+      const recipeData = await getRecipe(url);
+  
+      if (recipeData?.recipes?.length > 0) {
+        setRandomRecipeId(recipeData.recipes[0].id);
+      }
+    };
+  
+    fetchRandomRecipe();
+  }, []);
 
   const handleInputChange = (e) => {
     setIngredient([e.target.value]);
   };
-
+  
   const handleAddIngredient = () => {
     if (!ingredient) return;
     setIngredientList([...ingredientList, ingredient]);
     setIngredient("");
   };
-
+  
   const assignTag = event => {
     const tag = event.currentTarget.getAttribute("data-name");
     if (includedTags.includes(tag)) {
@@ -73,7 +87,7 @@ const App = () => {
       setIncludedTags([...includedTags, tag]);
     }
   }
-
+  
   const removeIngredient = (index) => {
     const newIngredients = [...ingredientList];
     newIngredients.splice(index, 1);
@@ -83,46 +97,64 @@ const App = () => {
   const fetchRecipe = async () => {
     const formattedIngredients = ingredientList.join(",").replace(" ", "");
     const formattedTags = includedTags.join(",").replace("-", "+");
+    let url;
 
-    const url = `https://api.spoonacular.com/recipes/random?ingredients=${formattedIngredients}&apiKey=${apiKey}&number=5&ranking=1${includedTags.length > 0 ? `&tags=${formattedTags}` : ""}`;
+    if (formattedIngredients.length === 0 && includedTags.length === 0) {
+      url = `https://api.spoonacular.com/recipes/random?apiKey=${apiKey}&number=5`;
+    } else {
+      url = `https://api.spoonacular.com/recipes/complexSearch${formattedIngredients.length > 0 ? `?includeIngredients=${formattedIngredients}` : "?"}&apiKey=${apiKey}&number=5&ranking=1${includedTags.length > 0 ? `&tags=${formattedTags}&instructionsRequired=true` : ""}`;
+    }
 
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-  
-      if (data.recipes && data.recipes.length > 0) {
-        setRecipes(data.recipes);
-      } else {
-        setRecipes({
-          title: "No recipes found",
-          image: "https://via.placeholder.com/150",
-          description: "Try a different ingredient or combination.",
-        });
-      }
-    } catch (error) {
-      console.error("Error fetching recipe:", error);
+    const data = await getRecipe(url);
+
+    if (data.results && data.results.length > 0) {
+      setRecipes(data.results);
+    } else if (data.recipes && data.recipes.length > 0) {
+      setRecipes(data.recipes);
+    } else {
       setRecipes({
-        title: "Error fetching recipe",
+        title: "No recipes found",
         image: "https://via.placeholder.com/150",
-        description: "Please try again later.",
+        description: "Try a different ingredient or combination.",
       });
     }
   };
+
+  const getRecipe = async (url) => {
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+
+      return data;
+    } catch (error) {
+      console.error("Error fetching recipe:", error);
+      setRecipes([
+        {
+          title: "Error fetching recipe",
+          image: "https://via.placeholder.com/150",
+          description: "Please try again later.",
+        }
+      ]);
+    }
+  }
 
   return (
     <Router>
       <div className="App">
         <header className="app-header">
           <div className="app-header-container">
+            <Link
+              className="app-header-link"
+              to={"/"}>Home</Link>
             <img
               className="app-header-logo"
               src={logo} 
               alt="Random Recipe Generator"
               onClick={() => window.location = '/'}/>
-            <h1 
-              className="header-page-title"
-              onClick={() => window.location = '/'}>Random Recipe Generator</h1>
-          </div>
+            <Link
+              className="app-header-link"
+              to={`/recipes/${randomRecipeId}`}>Random Recipe</Link>
+            </div>
         </header>
         <Routes>
           <Route 
