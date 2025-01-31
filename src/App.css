@@ -23,6 +23,17 @@ body {
   align-items: center;
 }
 
+.app-header-link {
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.app-header-link:hover {
+  color: #000;
+}
+
 .app-header-logo {
   display: block;
   margin: 0;

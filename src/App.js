@@ -36,7 +36,7 @@ const apiKey = process.env.REACT_APP_API_KEY;
 const fetchRecipeById = async (id) => {
   const apiKey = process.env.REACT_APP_API_KEY;
   const url = `https://api.spoonacular.com/recipes/${id}/information?apiKey=${apiKey}`;
-
+  
   try {
     const response = await fetch(url);
     const data = await response.json();
@@ -52,17 +52,32 @@ const App = () => {
   const [ingredientList, setIngredientList] = useState([]);
   const [includedTags, setIncludedTags] = useState([]);
   const [recipes, setRecipes] = useState([]);
+  const [randomRecipeId, setRandomRecipeId] = useState(null);
+
+  useEffect(() => {
+    const fetchRandomRecipe = async () => {
+      let url = `https://api.spoonacular.com/recipes/random?apiKey=${apiKey}&number=1`;
+  
+      const recipeData = await getRecipe(url);
+  
+      if (recipeData?.recipes?.length > 0) {
+        setRandomRecipeId(recipeData.recipes[0].id);
+      }
+    };
+  
+    fetchRandomRecipe();
+  }, []);
 
   const handleInputChange = (e) => {
     setIngredient([e.target.value]);
   };
-
+  
   const handleAddIngredient = () => {
     if (!ingredient) return;
     setIngredientList([...ingredientList, ingredient]);
     setIngredient("");
   };
-
+  
   const assignTag = event => {
     const tag = event.currentTarget.getAttribute("data-name");
     if (includedTags.includes(tag)) {
@@ -72,7 +87,7 @@ const App = () => {
       setIncludedTags([...includedTags, tag]);
     }
   }
-
+  
   const removeIngredient = (index) => {
     const newIngredients = [...ingredientList];
     newIngredients.splice(index, 1);
@@ -89,24 +104,28 @@ const App = () => {
     } else {
       url = `https://api.spoonacular.com/recipes/complexSearch${formattedIngredients.length > 0 ? `?includeIngredients=${formattedIngredients}` : "?"}&apiKey=${apiKey}&number=5&ranking=1${includedTags.length > 0 ? `&tags=${formattedTags}&instructionsRequired=true` : ""}`;
     }
-    
-    console.log(url)
 
+    const data = await getRecipe(url);
+
+    if (data.results && data.results.length > 0) {
+      setRecipes(data.results);
+    } else if (data.recipes && data.recipes.length > 0) {
+      setRecipes(data.recipes);
+    } else {
+      setRecipes({
+        title: "No recipes found",
+        image: "https://via.placeholder.com/150",
+        description: "Try a different ingredient or combination.",
+      });
+    }
+  };
+
+  const getRecipe = async (url) => {
     try {
       const response = await fetch(url);
       const data = await response.json();
-  
-      if (data.results && data.results.length > 0) {
-        setRecipes(data.results);
-      } else if (data.recipes && data.recipes.length > 0) {
-        setRecipes(data.recipes);
-      } else {
-        setRecipes({
-          title: "No recipes found",
-          image: "https://via.placeholder.com/150",
-          description: "Try a different ingredient or combination.",
-        });
-      }
+
+      return data;
     } catch (error) {
       console.error("Error fetching recipe:", error);
       setRecipes([
@@ -117,22 +136,25 @@ const App = () => {
         }
       ]);
     }
-  };
+  }
 
   return (
     <Router>
       <div className="App">
         <header className="app-header">
           <div className="app-header-container">
+            <Link
+              className="app-header-link"
+              to={"/"}>Home</Link>
             <img
               className="app-header-logo"
               src={logo} 
               alt="Random Recipe Generator"
               onClick={() => window.location = '/'}/>
-            <h1 
-              className="header-page-title"
-              onClick={() => window.location = '/'}>Recipe Generator</h1>
-          </div>
+            <Link
+              className="app-header-link"
+              to={`/recipes/${randomRecipeId}`}>Random Recipe</Link>
+            </div>
         </header>
         <Routes>
           <Route 
