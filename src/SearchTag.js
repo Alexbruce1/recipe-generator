@@ -81,7 +81,7 @@ const foodKey = [{
     icon: soup
   }];
 
-const SearchTag = ({ includedTags, assignTag, tag }) => {
+const SearchTag = ({ includedTags, index, assignTag, tag }) => {
   const [icon, setIcon] = useState({});
   const [tagText, setTagText] = useState("");
 
@@ -103,6 +103,7 @@ const SearchTag = ({ includedTags, assignTag, tag }) => {
     <div 
       className={includedTags.includes(tag) ? "search-ingredient-tag search-tag-active" : "search-ingredient-tag"}
       data-name={tag}
+      key={index}
       onClick={assignTag}>
       <img 
         className="search-ingredient-tag-icon" 

@@ -13,6 +13,8 @@ import paleo from "./assets/small-icons/paleo.svg";
 import whole30 from "./assets/small-icons/whole30.png";
 import drumstick from "./assets/small-icons/drumstick.svg";
 import fish from "./assets/small-icons/fish.svg";
+import close from "./assets/close.svg";
+import menu from "./assets/menu.svg";
 import "./App.css";
 import SearchTag from "./SearchTag.js";
 
@@ -53,6 +55,17 @@ const App = () => {
   const [includedTags, setIncludedTags] = useState([]);
   const [recipes, setRecipes] = useState([]);
   const [randomRecipeId, setRandomRecipeId] = useState(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     const fetchRandomRecipe = async () => {
@@ -67,6 +80,10 @@ const App = () => {
   
     fetchRandomRecipe();
   }, []);
+
+  const toggleMenuOpen = () => {
+    setMenuOpen(!menuOpen);
+  }
 
   const handleInputChange = (e) => {
     setIngredient([e.target.value]);
@@ -142,20 +159,44 @@ const App = () => {
     <Router>
       <div className="App">
         <header className="app-header">
-          <div className="app-header-container">
-            <Link
-              className="app-header-link"
-              to={"/"}>Home</Link>
-            <img
-              className="app-header-logo"
-              src={logo} 
-              alt="Random Recipe Generator"
-              onClick={() => window.location = '/'}/>
-            <Link
-              className="app-header-link"
-              to={`/recipes/${randomRecipeId}`}>Random Recipe</Link>
+          {isMobile ? (
+            <div className="app-header-container">
+              <img
+                className="app-header-logo"
+                src={logo} 
+                alt="Random Recipe Generator"
+                onClick={() => window.location = '/'}/>
+              <img 
+                className={menuOpen ? "app-header-menu app-header-menu-open" : "app-header-menu"}
+                src={menuOpen ? close : menu}
+                onClick={toggleMenuOpen}/>
             </div>
+          ) : (
+            <div className="app-header-container">
+              <Link
+                className="app-header-link"
+                to={"/"}>Home</Link>
+              <img
+                className="app-header-logo"
+                src={logo} 
+                alt="Random Recipe Generator"
+                onClick={() => window.location = '/'}/>
+              <Link
+                className="app-header-link"
+                to={`/recipes/${randomRecipeId}`}>Random Recipe</Link>
+            </div>
+            )}
         </header>
+        {isMobile && menuOpen && (
+          <div className="app-menu">
+            <Link
+              className="app-menu-link"
+              to={"/"}>Home</Link>
+            <Link
+              className="app-menu-link"
+              to={`/recipes/${randomRecipeId}`}>Random Recipe</Link>
+          </div>
+        )}
         <Routes>
           <Route 
             path="/"
@@ -209,21 +250,23 @@ const App = () => {
                 </form>
                 <h3 className="search-ingredients-tags-title">Dietary Restrictions</h3>
                 <div className="search-ingredients-tags">
-                  {dietaryRestrictions.map((tag) => {
+                  {dietaryRestrictions.map((tag, index) => {
                     return (
                       <SearchTag 
                         includedTags={includedTags}
+                        index={index}
                         assignTag={assignTag}
                         tag={tag}/>
-                    )
-                  })}
+                      )
+                    })}
                 </div>
                 <h3 className="search-ingredients-tags-title">Meals And Dishes</h3>
                 <div className="search-ingredients-tags">
-                  {dishes.map((tag) => {
+                  {dishes.map((tag, index) => {
                     return (
                       <SearchTag 
                         includedTags={includedTags}
+                        index={index}
                         assignTag={assignTag}
                         tag={tag}/>
                     )
