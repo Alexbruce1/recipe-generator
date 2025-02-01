@@ -191,10 +191,12 @@ const App = () => {
           <div className="app-menu">
             <Link
               className="app-menu-link"
-              to={"/"}>Home</Link>
+              to={"/"}
+              onClick={toggleMenuOpen}>Home</Link>
             <Link
               className="app-menu-link"
-              to={`/recipes/${randomRecipeId}`}>Random Recipe</Link>
+              to={`/recipes/${randomRecipeId}`}
+              onClick={toggleMenuOpen}>Random Recipe</Link>
           </div>
         )}
         <Routes>
