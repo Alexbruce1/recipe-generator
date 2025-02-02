@@ -232,3 +232,21 @@ body {
   width: 100%;
   pointer-events: none;
 }
+
+@media screen and (max-width: 768px) {
+  .search-ingredients-input {
+    font-size: 18px;
+  }
+
+  .form-button {
+    font-size: 18px;
+  }
+
+  .search-ingredients-tag {
+    font-size: 18px;
+  }
+
+  .ingredient-list-item {
+    font-size: 18px;
+  }
+}
