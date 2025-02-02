@@ -36,16 +36,34 @@ body {
 
 .app-header-logo {
   display: block;
-  margin: 0;
+  margin: 4px 0;
   height: 45px;
   cursor: pointer;
+}
+
+.app-header-menu {
+  height: 45px;
 }
 
 .header-page-title {
   cursor: pointer;
   font-weight: 700;
   font-style: italic;
-  }
+}
+
+.app-menu {
+  background-color: var(--green-primary);
+  padding: 12px 5%;
+}
+
+.app-menu-link {
+  display: block;
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+  font-size: 20px;
+  margin: 12px 0;
+}
 
 .app-content {
   margin: 20px auto;
@@ -96,6 +114,7 @@ body {
 .ingredient-list {
   display: flex;
   justify-content: flex-start;
+  flex-wrap: wrap;
   width: 100%;
   margin: 0;
 }
@@ -122,7 +141,7 @@ body {
 
 .clear-all-button {
   cursor: pointer;
-  color: #fff;
+  font-weight: 900;
 }
 
 .search-ingredients-tags-title {
@@ -212,4 +231,22 @@ body {
 .recipe-image {
   width: 100%;
   pointer-events: none;
+}
+
+@media screen and (max-width: 768px) {
+  .search-ingredients-input {
+    font-size: 18px;
+  }
+
+  .form-button {
+    font-size: 18px;
+  }
+
+  .search-ingredients-tag {
+    font-size: 18px;
+  }
+
+  .ingredient-list-item {
+    font-size: 18px;
+  }
 }
