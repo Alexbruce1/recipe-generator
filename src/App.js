@@ -101,9 +101,9 @@ const App = () => {
     let url;
 
     if (formattedIngredients.length === 0 && includedTags.length === 0) {
-      url = `https://api.spoonacular.com/recipes/random?apiKey=${apiKey}&number=5`;
+      url = `https://api.spoonacular.com/recipes/random?apiKey=${apiKey}&number=10`;
     } else {
-      url = `https://api.spoonacular.com/recipes/complexSearch${formattedIngredients.length > 0 ? `?includeIngredients=${formattedIngredients}` : "?"}&apiKey=${apiKey}&number=5&ranking=1${includedTags.length > 0 ? `&tags=${formattedTags}&instructionsRequired=true` : ""}`;
+      url = `https://api.spoonacular.com/recipes/complexSearch${formattedIngredients.length > 0 ? `?includeIngredients=${formattedIngredients}` : "?"}&apiKey=${apiKey}&number=10&ranking=1${includedTags.length > 0 ? `&tags=${formattedTags}&instructionsRequired=true` : ""}`;
     }
 
     const data = await getRecipe(url);
@@ -119,6 +119,8 @@ const App = () => {
         description: "Try a different ingredient or combination.",
       });
     }
+
+    console.log(data.recipes);
   };
 
   const getRecipe = async (url) => {
@@ -237,16 +239,17 @@ const App = () => {
                   className="form-button"
                 />
               </div>
-              {recipes && recipes.length > 0 && recipes.map((recipe) => {
-                return (
-                  <Link 
-                    key={recipe.id} 
-                    className="recipe-link"
-                    to={`/recipes/${recipe.id}`}>
-                    <RecipeCard recipe={recipe} diets={diets} />
-                  </Link>
-                )
-              })}
+              {recipes && recipes.length > 0 && (
+                <div className="recipe-list">
+                  {recipes.map((recipe) => {
+                    return (
+                      <RecipeCard recipe={recipe} diets={diets} />
+                    )
+                  })}
+                </div>
+              )
+              
+              }
             </div>
           }/>
           <Route 

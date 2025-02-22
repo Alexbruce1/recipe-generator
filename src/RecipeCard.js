@@ -1,33 +1,22 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import "./RecipeCard.css";
 
 const RecipeCard = ({ recipe, diets }) => {
   return (
-    <div className="recipe">
-      <div className="recipe-top-section">
-        {recipe.diets && recipe.diets.length > 0 && (
-          <div className="recipe-tags">
-            {recipe.diets.map((tag, index) => {
-              return (
-                <div 
-                  key={index} 
-                  className="recipe-tag">
-                  <img 
-                    className="recipe-tag-icon" 
-                    alt={tag}
-                    src={diets[tag]} />
-                </div>
-              )
-            })}
-          </div>
-        )}
+    <Link 
+      key={recipe.id} 
+      className="recipe-link"
+      to={`/recipes/${recipe.id}`}>
+          <div 
+            className="recipe-image"
+            style={{backgroundImage: `url(${recipe.image})`}}
+            role="img"
+            aria-label={recipe.title}></div>
+      <div className="recipe">
+        <h2 className="recipe-card-title">{recipe.title}</h2>
       </div>
-      <h2>{recipe.title}</h2>
-      <img 
-        src={recipe.image} 
-        alt={recipe.title} 
-        className="recipe-image" />
-      <p>{recipe.description}</p>
-    </div>
+    </Link>
   )
 };
 
