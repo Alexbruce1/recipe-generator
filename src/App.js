@@ -15,6 +15,7 @@ import drumstick from "./assets/small-icons/drumstick.svg";
 import fish from "./assets/small-icons/fish.svg";
 import "./App.css";
 import SearchTag from "./SearchTag.js";
+import RecipeCard from "./RecipeCard.js";
 
 const diets = {
   "lacto ovo vegetarian": vegetarian,
@@ -242,32 +243,7 @@ const App = () => {
                     key={recipe.id} 
                     className="recipe-link"
                     to={`/recipes/${recipe.id}`}>
-                    <div className="recipe">
-                      <div className="recipe-top-section">
-                        {recipe.diets && recipe.diets.length > 0 && (
-                          <div className="recipe-tags">
-                            {recipe.diets.map((tag, index) => {
-                              return (
-                                <div 
-                                  key={index} 
-                                  className="recipe-tag">
-                                  <img 
-                                    className="recipe-tag-icon" 
-                                    alt={tag}
-                                    src={diets[tag]} />
-                                </div>
-                              )
-                            })}
-                          </div>
-                        )}
-                      </div>
-                      <h2>{recipe.title}</h2>
-                      <img 
-                        src={recipe.image} 
-                        alt={recipe.title} 
-                        className="recipe-image" />
-                      <p>{recipe.description}</p>
-                    </div>
+                    <RecipeCard recipe={recipe} diets={diets} />
                   </Link>
                 )
               })}
