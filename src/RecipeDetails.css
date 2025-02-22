@@ -14,6 +14,7 @@
   margin: 20px auto;
   margin-bottom: 20px;
   pointer-events: none;
+  max-width: 100%;
 }
 
 .recipe-details-title {
@@ -122,7 +123,7 @@ li {
 }
 
 .instruction-item {
-  margin-top: 40px;
+  margin-top: 20px;
 }
 
 .instruction-item-top-line {
@@ -139,7 +140,7 @@ li {
 .instruction-number {
   font-weight: 800;
   font-size: 24px;
-  line-height: 0;
+  line-height: 1;
 }
 
 .instruction-text {
@@ -149,4 +150,19 @@ li {
 .recipe-details-source {
   margin-top: 20px;
   font-weight: 600;
+}
+
+@media screen and (max-width: 768px) {
+  .recipe-details {
+    padding: 0 20px 40px;
+  }
+
+  .recipe-details-tags {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .recipe-details-tag {
+    text-align: left;
+  }
 }
