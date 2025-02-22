@@ -60,3 +60,15 @@
 .recipe-image {
   background-size: 105%;
 }
+
+@media (max-width: 768px) {
+  .recipe-link {
+    width: 100%;
+    margin-bottom: 20px;
+    border-radius: 8px;
+  }
+
+  .recipe-image {
+    border-radius: 8px 8px 0 0;
+  }
+}
