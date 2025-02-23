@@ -28,6 +28,7 @@ body {
   color: #333;
   font-weight: 600;
   font-size: 20px;
+  padding: 4px 20px;
 }
 
 .app-header-link:hover {
