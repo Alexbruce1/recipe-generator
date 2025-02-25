@@ -11,7 +11,7 @@ body {
 }
 
 .app-header {
-  background-color: var(--green-primary);
+  background-color: var(--blue-primary);
 }
 
 .app-header-container {
@@ -53,7 +53,7 @@ body {
 }
 
 .app-menu {
-  background-color: var(--green-primary);
+  background-color: var(--blue-primary);
   padding: 12px 5%;
 }
 
@@ -83,7 +83,7 @@ body {
   border-radius: 10px;
   margin-bottom: 10px;
   padding: 8px;
-  border: 2px solid var(--green-primary);
+  border: 2px solid var(--blue-primary);
 }
 
 .search-ingredients-top-line{
@@ -102,7 +102,7 @@ body {
 
 .form-button {
   padding: 10px 20px;
-  background: var(--green-primary);
+  background: var(--blue-primary);
   color: #fff;
   font-weight: 900;
   border: none;
@@ -124,13 +124,13 @@ body {
   display: inline-flex;
   align-items: center;
   padding: 4px 8px;
-  background-color: var(--green-primary);
+  background-color: var(--blue-primary);
   border-radius: 4px;
   margin: 4px;
 }
 
 .ingredient-list-item:hover {
-  background-color: #45A049;
+  background-color: #4C80E0;
 }
 
 .remove-item-x {
@@ -159,8 +159,8 @@ body {
 }
 
 .search-ingredient-tag {
-  border: 2px solid var(--green-primary);
-  color: var(--green-primary);
+  border: 2px solid var(--blue-primary);
+  color: var(--blue-primary);
   padding: 5px;
   border-radius: 5px;
   margin: 5px 10px;
@@ -176,7 +176,7 @@ body {
 }
 
 .search-tag-active {
-  background: var(--green-primary);
+  background: var(--blue-primary);
   color: #fff;
 }
 
